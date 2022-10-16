@@ -1,15 +1,28 @@
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
 
+    private static final String STOP_COMMAND = "stop";
+
     public static void main(String[] args) {
         EchoServer echoServer = initializeServer();
         ExecutorService executorService = null;
         if(echoServer != null) {
-            executorService = Executors.newSingleThreadExecutor();
-            executorService.submit(echoServer);
+//            executorService = Executors.newSingleThreadExecutor();
+//            executorService.submit(echoServer);
+            echoServer.start();
+            Scanner scanner = new Scanner(System.in);
+            while(true){
+                String input = scanner.nextLine();
+                if(input.equalsIgnoreCase(STOP_COMMAND) || input.equalsIgnoreCase(STOP_COMMAND.substring(0,1))){
+                    System.out.println("======= FINALIZANDO SERVIDOR =======");
+                    echoServer.interrupt();
+                    break;
+                }
+            }
         }
     }
 

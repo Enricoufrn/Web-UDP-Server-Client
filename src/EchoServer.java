@@ -1,12 +1,12 @@
 import java.io.IOException;
 import java.net.*;
 
-public class EchoServer implements Runnable {
+public class EchoServer extends Thread {
 
     public static final int DEFAULT_SERVER_PORT = 4500;
     private static final int DEFAULT_BUF_LENGTH = 1024;
 
-    private static final int DEFAULT_TIMEOUT = 30000;
+    private static final int DEFAULT_TIMEOUT = 15000;
 
     private DatagramSocket socket;
     private volatile boolean running;
@@ -61,6 +61,7 @@ public class EchoServer implements Runnable {
                 socket.send(packet);
             } catch (IOException e) {
                 System.out.println("ECHO_SERVER: STOP");
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }
