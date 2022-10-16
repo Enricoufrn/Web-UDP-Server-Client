@@ -6,6 +6,8 @@ public class EchoServer implements Runnable {
     public static final int DEFAULT_SERVER_PORT = 4500;
     private static final int DEFAULT_BUF_LENGTH = 1024;
 
+    private static final int DEFAULT_TIMEOUT = 30000;
+
     private DatagramSocket socket;
     private volatile boolean running;
     private byte[] buf;
@@ -44,6 +46,7 @@ public class EchoServer implements Runnable {
             }
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             try {
+                socket.setSoTimeout(DEFAULT_TIMEOUT);
                 socket.receive(packet);
                 InetAddress address = packet.getAddress();
                 int port = packet.getPort();
